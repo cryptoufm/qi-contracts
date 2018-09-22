@@ -37,7 +37,7 @@ contract qiRegistry {
     q.newIssueDate(receiverAddress);
   }
 
-  function getEmitterQis(address issuerAddress) public view returns (address[]){
+  function getIssuerQis(address issuerAddress) public view returns (address[]){
     return issuers[issuerAddress];
   }
 
