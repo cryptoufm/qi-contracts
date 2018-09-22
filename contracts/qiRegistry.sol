@@ -17,7 +17,7 @@ contract qiRegistry {
     return true;
   }
 
-  function registerEmmiter(address qiAddress) public {
+  function registerIssuers(address qiAddress) public {
 
     require(validate(qiAddress));
     // Maps the Qi address to the Qi creator
