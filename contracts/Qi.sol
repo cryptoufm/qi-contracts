@@ -8,8 +8,8 @@ contract Qi{
     string public other;
     mapping (address => uint256) issueDates;
 
-    constructor (string _title, string _other) public {
-        collectionAddr =  msg.sender;
+    constructor (address collectionOwner, string _title, string _other) public {
+        collectionAddr =  collectionOwner;
         qiCreationTime = block.timestamp;
         title = _title;
         other = _other;
