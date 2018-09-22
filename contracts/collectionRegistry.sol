@@ -7,10 +7,15 @@ contract collectionRegistry {
   // Mapping between wallets and collections
   mapping (address => address[]) public collections;
 
-  function createCollection(string title, string alias) public {
+  function createCollection(
+    string title,
+    string alias)
+    public
+    returns (address){
     Collection collection = new Collection(title, alias);
     // Maps the Collection address to the creator
     collections[msg.sender].push(collection);
+    return collection;
   }
 
   function getCollectionsByAddr(address walletAddr) public view returns (address[]) {

@@ -34,11 +34,13 @@ contract qiRegistry {
     string title,
     string info)
     onlyCollectionOwner (collectionAddr)
-    public {
+    public
+    returns (address){
 
     Qi qi = new Qi(collectionAddr, title, info);
     // Maps the Qi address to the Qi creator
     issuers[collectionAddr].push(qi);
+    return qi;
   }
 
   function issueQi(
