@@ -11,7 +11,7 @@ contract qiRegistry {
   // Mapping between profile and Q'i's it owns
   mapping (address => address[]) public receivers;
 
-  function validate(address qiAddress, address collectionAddress) private view returns (bool){
+  function validateQiIssuer(address qiAddress, address collectionAddress) private view returns (bool){
     // Function for accessing Qi contract and verifying owner
     Qi q = Qi(qiAddress);
     Collection c = Collection(collectionAddress);
@@ -20,16 +20,26 @@ contract qiRegistry {
     return true;
   }
 
-  function registerIssuers(address qiAddress, address collectionAddr) public {
-
-    require(validate(qiAddress, collectionAddr));
-    // Maps the Qi address to the Qi creator
-    issuers[collectionAddr].push(qiAddress);
+  function validateCollection(address collectionAddress) private view returns (bool){
+    // Function for accessing Collection contract and verifying owner
+    Collection c = Collection(collectionAddress);
+		require(msg.sender == c.getOwner());
+    return true;
   }
 
-  function registerReceiver(address qiAddress, address receiverAddress, address collectionAddr) public {
+  /*
+    Create a new Qi and register the owner as a Qi Issuer
+  */
+  function createQi(address collectionAddr, string title, string info) public {
+    require(validateCollection(collectionAddr));
+    Qi qi = new Qi(collectionAddr, title, info);
+    // Maps the Qi address to the Qi creator
+    issuers[collectionAddr].push(qi);
+  }
 
-    require(validate(qiAddress, collectionAddr));
+  function issueQi(address qiAddress, address receiverAddress, address collectionAddr) public {
+
+    require(validateQiIssuer(qiAddress, collectionAddr));
     // Maps Qi address to the receiver's Q'i' list
     // Sets the date in which the Q'i' was emmited
     receivers[receiverAddress].push(qiAddress);
