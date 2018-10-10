@@ -10,7 +10,7 @@ contract qiRegistry {
         address collectionAddr) {
           
         Collection c = Collection(collectionAddr);
-        require(msg.sender == c.getOwner());
+        require(msg.sender == c.getOwner(), "Not the collection owner.");
         _;
     }
 
@@ -20,8 +20,8 @@ contract qiRegistry {
 
         Collection c = Collection(collectionAddr);
         Qi q = Qi(qiAddress);
-        require(msg.sender == c.getOwner());
-        require(c.getOwner() == q.getOwner());
+        require(msg.sender == c.getOwner(), "Not the collection owner.");
+        require(c.getOwner() == q.getOwner(), "Not the Qi owner.");
         _;
     }
 
@@ -31,6 +31,7 @@ contract qiRegistry {
   // Mapping between profile and Q'i's it owns
     mapping (address => address[]) public receivers;
 
+    event CreatedQi (address qiAddress);
   /*
     Create a new Qi and register the owner as a Qi Issuer
   */
@@ -38,13 +39,14 @@ contract qiRegistry {
         address collectionAddr,
         string title,
         string info)
-        onlyCollectionOwner (collectionAddr)
         public
+        onlyCollectionOwner (collectionAddr)
         returns (address){
 
         Qi qi = new Qi(collectionAddr, title, info);
         // Maps the Qi address to the Qi creator
         issuers[collectionAddr].push(qi);
+        emit CreatedQi(qi);
         return qi;
     }
 
@@ -52,8 +54,8 @@ contract qiRegistry {
         address qiAddress,
         address receiverAddress,
         address collectionAddr)
-        onlyQiOwner (collectionAddr, qiAddress)
-        public {
+        public
+        onlyQiOwner (collectionAddr, qiAddress){
         // Maps Qi address to the receiver's Q'i' list
         // Sets the date in which the Q'i' was emmited
         receivers[receiverAddress].push(qiAddress);

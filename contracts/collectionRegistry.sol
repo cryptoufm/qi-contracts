@@ -7,6 +7,8 @@ contract collectionRegistry {
   // Mapping between wallets and collections
     mapping (address => address[]) public collections;
 
+    event CreatedCollection (address collectionAddress);
+
     function createCollection(
         string title,
         string alias)
@@ -15,6 +17,7 @@ contract collectionRegistry {
         Collection collection = new Collection(title, alias);
         // Maps the Collection address to the creator
         collections[msg.sender].push(collection);
+        emit CreatedCollection(collection);
         return collection;
     }
 
