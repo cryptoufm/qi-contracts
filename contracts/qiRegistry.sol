@@ -40,7 +40,7 @@ contract qiRegistry {
         string title,
         string info)
         public
-        onlyCollectionOwner (collectionAddr)
+        //onlyCollectionOwner (collectionAddr)
         returns (address){
 
         Qi qi = new Qi(collectionAddr, title, info);
@@ -55,7 +55,8 @@ contract qiRegistry {
         address receiverAddress,
         address collectionAddr)
         public
-        onlyQiOwner (collectionAddr, qiAddress){
+        //onlyQiOwner (collectionAddr, qiAddress)
+        {
         // Maps Qi address to the receiver's Q'i' list
         // Sets the date in which the Q'i' was emmited
         receivers[receiverAddress].push(qiAddress);

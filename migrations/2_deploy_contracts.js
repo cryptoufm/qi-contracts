@@ -13,11 +13,11 @@ var alias = "juanro";
 //QI
 var _title = "distincion academica";
 var _other = "{\"text\":\"json\"}";
-var collectionOwner = "0x43422873aa6d609834e79b55f4e923524d94648f";
+var collectionOwner = "0xBd032F08e6CCcF634bB96b4f61D6e8E466387FA8";
 
 
 module.exports = function(deployer) {
-  deployer.deploy(Collections,title,alias);
+  deployer.deploy(Collections,title, alias);
   deployer.deploy(CollectionsRegistry);
   deployer.deploy(Migrations);
   deployer.deploy(Qi,collectionOwner,_title,_other);

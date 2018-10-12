@@ -9,7 +9,7 @@ contract collectionRegistry {
 
     event CreatedCollection (address collectionAddress);
 
-    function createCollection(
+    function create(
         string title,
         string alias)
         public
